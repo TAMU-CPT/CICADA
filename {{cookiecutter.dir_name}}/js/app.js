@@ -45,6 +45,7 @@ var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
                 templateUrl: 'partials/home.html',
                 controller: 'HomeCtrl'
             }).
+            // LOAD ROUTES
             otherwise({
                 redirectTo: '/'
             });
@@ -104,3 +105,4 @@ require('./filter.js')({{cookiecutter.app_name}});
 require('./service.js')({{cookiecutter.app_name}});
 require('./const.js')({{cookiecutter.app_name}});
 require('./ctrl/home.js')({{cookiecutter.app_name}});
+// REQUIRE
