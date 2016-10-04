@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" ng-app="{{cookiecutter.app_name}}">
+<head>
+    <meta charset="utf-8">
+    <title>{{cookiecutter.description}}</title>
+
+    <link rel="stylesheet" type="text/css" href="build/main.css"/>
+</head>
+<body>
+    <md-toolbar ng-cloak>
+        <div class="md-toolbar-tools">
+            <span>{{cookiecutter.description}}</span>
+        </div>
+    </md-toolbar>
+    <div class="view-container">
+        <div ng-view class="view-frame"></div>
+    </div>
+    <script type="text/javascript" src="build/app.js" charset="utf-8"></script>
+</body>
+</html>
