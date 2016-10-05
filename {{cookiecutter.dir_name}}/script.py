@@ -38,13 +38,13 @@ with open('js/app.js', 'r+') as app:
             plural = 'es'
 
         # list view
-        routes.append('\n'.join([" "*n  + "when('/%ss', {" % model.lower(),
+        routes.append('\n'.join([" "*n  + "when('/%(0)s%(1)s', {" % {'0': model.lower(), '1': plural},
                    " "*16 + "templateUrl: 'partials/%s-list.html'," % model.lower(),
                    " "*16 + "controller: '%sListCtrl'" % model,
                    " "*12 + "})."]))
 
         # detail view
-        routes.append('\n'.join([" "*12  + "when('/%s" % model.lower() + plural + "/:%sID', {" % model.lower(),
+        routes.append('\n'.join([" "*12  + "when('/%(0)s%(1)s/:%(0)sID', {" % {'0': model.lower(), '1': plural},
                    " "*16 + "templateUrl: 'partials/%s-detail.html'," % model.lower(),
                    " "*16 + "controller: '%sDetailCtrl'" % model,
                    " "*12 + "})."]))
