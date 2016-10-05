@@ -24,6 +24,7 @@ with open(os.path.expanduser(path)) as models_file:
 # modify app.js and create controllers and templates for list/detail views
 with open('js/app.js', 'r+') as app:
     a = app.read()
+
     routes = []
     requires = []
     n = 0
@@ -32,14 +33,18 @@ with open('js/app.js', 'r+') as app:
         if num > 0:
             n = 12
 
+        plural = 's'
+        if model.endswith('s'):
+            plural = 'es'
+
         # list view
-        routes.append('\n'.join([" "*n  + "when('/', {",
+        routes.append('\n'.join([" "*n  + "when('/%ss', {" % model.lower(),
                    " "*16 + "templateUrl: 'partials/%s-list.html'," % model.lower(),
                    " "*16 + "controller: '%sListCtrl'" % model,
                    " "*12 + "})."]))
 
         # detail view
-        routes.append('\n'.join([" "*12  + "when('/', {",
+        routes.append('\n'.join([" "*12  + "when('/%s" % model.lower() + plural + "/:%sID', {" % model.lower(),
                    " "*16 + "templateUrl: 'partials/%s-detail.html'," % model.lower(),
                    " "*16 + "controller: '%sDetailCtrl'" % model,
                    " "*12 + "})."]))

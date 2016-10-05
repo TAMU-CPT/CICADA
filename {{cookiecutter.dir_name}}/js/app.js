@@ -41,11 +41,11 @@ var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
             .primaryPalette('blue')
             .accentPalette('pink');
         $routeProvider.
+            // LOAD ROUTES
             when('/', {
                 templateUrl: 'partials/home.html',
                 controller: 'HomeCtrl'
             }).
-            // LOAD ROUTES
             otherwise({
                 redirectTo: '/'
             });
