@@ -14,7 +14,9 @@ Install Cookiecutter:
 ```console
 $ pip install cookiecutter
 ```
-Give names for your directory, project, and app when prompted by Cookiecutter:
+Give names for your directory, project, and app when prompted by Cookiecutter.
+The models_path field should be the relative or absolute path to your
+models.py file from your Django DRF backend.
 ```console
 $ cookiecutter https://github.com/TAMU-CPT/CICADA.git
 dir_name [frontend-test]:
@@ -23,7 +25,7 @@ author [TAMU-CPT]:
 app_name [testApp]:
 models_path [~/Work/drf_project/base/models.py]:
 ```
-Run the script:
+Run the script to populate template:
 ```console
 $ python script.py
 ```
