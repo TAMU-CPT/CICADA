@@ -35,4 +35,4 @@ $ make run
 ```
 
 That's it! By default, your server will be running on port 10000 and pointing at
-port 8000 for the backend. Don't forget to set up CORS in your backend.
+port 8000 for the backend.
