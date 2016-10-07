@@ -1,7 +1,7 @@
 {
-    "dir_name": "frontend_test",
-    "description": "GUANINE frontend",
+    "dir_name": "frontend-test",
+    "description": "Test frontend",
     "author": "TAMU-CPT",
-    "app_name": "guanineApp",
-    "models_path": "~/Work/guanine/base/models.py"
+    "app_name": "testApp",
+    "models_path": "~/Work/drf_project/base/models.py"
 }
