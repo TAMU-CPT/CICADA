@@ -34,16 +34,16 @@
                         </md-list>
                     </div>
                 </script>
-                <md-button aria-label="User menu" ng-if="nav.userData.email" class="md-icon-button" style="padding:0;">
+                <md-button aria-label="User menu" ng-if="nav.userData.username" class="md-icon-button" style="padding:0;">
                     <img ns-popover
                       ns-popover-theme="ns-popover-tooltip-theme"
                       ns-popover-template="popover"
                       ns-popover-trigger="click"
                       ns-popover-placement="bottom|right"
                       ns-popover-hide-on-inside-click = "true"
-                      ng-if="nav.userData.email" gravatar-src="nav.userData.email" style="width:100%; border-radius: 50%">
+                      gravatar-src="nav.userData.email" style="width:100%; border-radius: 50%">
                 </md-button>
-                <md-button aria-label="Login" ng-if="!nav.userData.email" ng-hide="nav.show_login_button == false" ng-click="go('/login/')" class="md-secondary">
+                <md-button aria-label="Login" ng-if="!nav.userData.username" ng-hide="nav.show_login_button == false" ng-click="go('/login/')" class="md-secondary">
                     Login
                 </md-button>
             </div>
