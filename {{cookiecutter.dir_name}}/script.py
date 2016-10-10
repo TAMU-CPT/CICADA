@@ -53,12 +53,13 @@ with open('js/app.js', 'r+') as app:
         requires.append("require('./ctrl/%s/detail.js')" % model.lower() + "(%s);" % app_name)
 
         # create directories for each model's set of controls
-        os.makedirs('js/ctrl/%s' % model.lower())
+        controller_path = 'js/ctrl/%s' % model.lower()
+        os.makedirs(controller_path)
 
         # create list and detail controllers for each model
-        with open('js/ctrl/%s/list.js' % model, 'w') as list_ctrl:
+        with open(controller_path + '/list.js', 'w') as list_ctrl:
             list_ctrl.write(template_ctrl(model + "ListCtrl"))
-        with open('js/ctrl/%s/detail.js' % model, 'w') as detail_ctrl:
+        with open(controller_path + '/detail.js', 'w') as detail_ctrl:
             detail_ctrl.write(template_ctrl(model + "DetailCtrl"))
 
         # create list and detail templates for each model
