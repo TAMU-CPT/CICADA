@@ -1,5 +1,5 @@
 export default function({{cookiecutter.app_name}}) {
-    guanineApp.service('$mdLoginToast', function($mdToast) {
+    {{cookiecutter.app_name}}.service('$mdLoginToast', function($mdToast) {
         return {
             show: function(content) {
             return $mdToast.show(
