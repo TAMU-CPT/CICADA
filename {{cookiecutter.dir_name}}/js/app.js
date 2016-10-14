@@ -41,7 +41,7 @@ var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
             .primaryPalette('blue')
             .accentPalette('pink');
         $routeProvider.
-            // LOAD ROUTES
+// LOAD ROUTES
             when('/login', {
                 templateUrl: 'partials/login.html',
                 controller: 'LoginCtrl'
