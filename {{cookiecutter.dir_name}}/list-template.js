@@ -1,5 +1,5 @@
             $scope.go = function(id) {
-                $location.path('/&l&s/' + id);;
+                $location.path('/&l&&plural&/' + id);;
             };
 
             //uncomment if ordering filter is implemented in backend
@@ -11,7 +11,7 @@
                 }
                 //uncomment if ordering filter is implemented in backend
                 //$scope.query.ordering = $scope.ordering;
-                $scope.promise = Restangular.all('&app&/&l&s').getList($scope.query).then(function(data) {
+                $scope.promise = Restangular.all('&app&/&l&&plural&').getList($scope.query).then(function(data) {
                     $scope.&l&s = data;
                 });
             };
