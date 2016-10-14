@@ -8,22 +8,34 @@ models = {}
 
 def write_input_block(model,field):
     """ templates input blocks for card in detail view """
-    return ('\n' + " "*12).join([" "*12 + '<md-input-container flex>',
+    return ('\n' + " "*16).join([" "*16 + '<md-input-container flex>',
                                  " "*4 + '<label>%s</label>' % field,
                                  " "*4 + '<input ng-model="%s.%s">' % (model.lower(), field),
                                  '</md-input-container>'])
 
 def write_inputs(model):
     """ returns templated input blocks for card in detail view """
-    return ('\n').join([write_input_block(model, field) for field in models[model]])
+    return ('\n').join(
+        [write_input_block(model, field) \
+         for field in models[model] \
+         if models[model][field] != 'ManyToManyField'
+        ])
 
 def write_headers(model):
     """ templates headers for table in list view """
-    return ('\n' + " "*28).join(["<th md-column><span>%s</span></th>" % field for field in models[model]])
+    return ('\n' + " "*28).join(
+        ["<th md-column><span>%s</span></th>" % field \
+         for field in models[model] \
+         if models[model][field] != 'ManyToManyField'
+        ])
 
 def write_rows(model):
     """ templates rows for table in list view """
-    return ('\n' + " "*28).join(["<td md-cell>{% raw %}{{%s.%s}}{% endraw %}</td>" % (model.lower(), field) for field in models[model]])
+    return ('\n' + " "*28).join(
+        ["<td md-cell>{% raw %}{{%s.%s}}{% endraw %}</td>" % (model.lower(), field) \
+         for field in models[model] \
+         if models[model][field] != 'ManyToManyField'
+        ])
 
 def template_ctrl(model, c_type):
     """ templates the contents of the controller files """
