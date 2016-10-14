@@ -6,8 +6,12 @@ be easily created with the [cc-automated-drf-template](https://github.com/TAMU-C
 
 ## Features
 - Webpack configured
-- creates default controllers
+- backend communication with [Restangular](https://github.com/mgonto/restangular)
+- creates list and detail controllers for all models
+- creates list and detail partials for all models
 - built-in JWT-based login/logout
+- uses [angular-gravatar](https://github.com/wallin/angular-gravatar) for user icons
+- support for multiple apps in the backend
 
 ## Installation
 Install Cookiecutter:
@@ -25,9 +29,9 @@ author [TAMU-CPT]:
 app_name [testApp]:
 models_path [~/Work/drf_project/base/models.py]:
 ```
-Run the script to populate template:
+Run the script to populate template using the path to your backend app's `models.py`:
 ```console
-$ python script.py
+$ python script.py --models_path path/to/models.py
 ```
 
 To install requirements and run, type:
@@ -37,3 +41,8 @@ $ make
 
 That's it! By default, your server will be running on port 10000 and pointing at
 port 8000 for the backend.
+
+## Multiple app support
+Some Django projects have multiple apps in addition to the base application.
+If you want to similarly generate files on your frontend for another app,
+all you have to do is run the script again using the path to that app's `models.py`.
