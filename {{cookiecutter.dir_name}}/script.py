@@ -1,10 +1,8 @@
 import os
 import ast
 import _ast
+import argparse
 
-path = '{{cookiecutter.models_path}}'
-app_name = '{{cookiecutter.app_name}}'
-models = {}
 
 def write_input_block(model,field):
     """ templates input blocks for card in detail view """
@@ -37,7 +35,7 @@ def write_rows(model):
          if models[model][field] != 'ManyToManyField'
         ])
 
-def template_ctrl(model, c_type):
+def template_ctrl(model, c_type, app_name, path, plural):
     """ templates the contents of the controller files """
     file_text = []
     controller_name = model + c_type + 'Ctrl'
@@ -55,86 +53,95 @@ def template_ctrl(model, c_type):
     file_text.append('\n'.join([" "*4 + "}]);", "}"]))
     return '\n'.join(file_text)
 
-# parse models.py
-with open(os.path.expanduser(path)) as models_file:
-    m = ast.parse(models_file.read())
-    for i in m.body:
-        if type(i) == _ast.ClassDef:
-            models[i.name] = {}
-            for x in i.body:
-                if type(x) == _ast.Assign:
-                    models[i.name][x.targets[0].id] = x.value.func.attr
+def parse_models(path):
+    """ parses models.py """
+    models = {}
+    with open(os.path.expanduser(path)) as models_file:
+        m = ast.parse(models_file.read())
+        for i in m.body:
+            if type(i) == _ast.ClassDef:
+                models[i.name] = {}
+                for x in i.body:
+                    if type(x) == _ast.Assign:
+                        models[i.name][x.targets[0].id] = x.value.func.attr
+    return models
 
 # modify app.js and create controllers and templates for list/detail views
-with open('js/app.js', 'r+') as app:
-    a = app.read()
+def write_files(models, path):
+    with open('js/app.js', 'r+') as app:
+        app_name = '{{cookiecutter.app_name}}'
 
-    routes = []
-    requires = []
-    n = 0
-    for num, model in enumerate(models):
-        # first line will already be indented
-        if num > 0:
-            n = 12
+        a = app.read()
 
-        plural = 's'
-        if model.endswith('s'):
-            plural = 'es'
+        routes = []
+        requires = []
+        for model in models:
+            plural = 's'
+            if model.endswith('s'):
+                plural = 'es'
 
-        # list view
-        routes.append('\n'.join([" "*n  + "when('/%(0)s%(1)s', {" % {'0': model.lower(), '1': plural},
-                   " "*16 + "templateUrl: 'partials/%s-list.html'," % model.lower(),
-                   " "*16 + "controller: '%sListCtrl'" % model,
-                   " "*12 + "})."]))
+            # list view
+            routes.append('\n'.join([" "*12  + "when('/%(0)s%(1)s', {" % {'0': model.lower(), '1': plural},
+                    " "*16 + "templateUrl: 'partials/%s-list.html'," % model.lower(),
+                    " "*16 + "controller: '%sListCtrl'" % model,
+                    " "*12 + "})."]))
 
-        # detail view
-        routes.append('\n'.join([" "*12  + "when('/%(0)s%(1)s/:%(0)sID', {" % {'0': model.lower(), '1': plural},
-                   " "*16 + "templateUrl: 'partials/%s-detail.html'," % model.lower(),
-                   " "*16 + "controller: '%sDetailCtrl'" % model,
-                   " "*12 + "})."]))
+            # detail view
+            routes.append('\n'.join([" "*12  + "when('/%(0)s%(1)s/:%(0)sID', {" % {'0': model.lower(), '1': plural},
+                    " "*16 + "templateUrl: 'partials/%s-detail.html'," % model.lower(),
+                    " "*16 + "controller: '%sDetailCtrl'" % model,
+                    " "*12 + "})."]))
 
-        # keep flag in case there are multiple backend apps
+
+            requires.append("require('./ctrl/%s/list.js')" % model.lower() + "(%s);" % app_name)
+            requires.append("require('./ctrl/%s/detail.js')" % model.lower() + "(%s);" % app_name)
+
+
+            # create directories for each model's set of controls
+            controller_path = 'js/ctrl/%s' % model.lower()
+            os.makedirs(controller_path)
+
+            # create list and detail controllers for each model
+            with open(controller_path + '/list.js', 'w') as list_ctrl:
+                list_ctrl.write(template_ctrl(model, "List", app_name, path, plural))
+
+            with open(controller_path + '/detail.js', 'w') as detail_ctrl:
+                detail_ctrl.write(template_ctrl(model, "Detail", app_name, path, plural))
+
+            # create list and detail templates for each model
+            with open('list-template.html', 'r') as template:
+                with open('partials/%s-list.html' % model.lower(), 'w') as partial:
+                    content = template.read()
+                    content = content.replace('&c&', model)
+                    content = content.replace('&l&', model.lower())
+                    content = content.replace('&plural&', plural)
+                    content = content.replace('&headers&', write_headers(model))
+                    content = content.replace('&rows&', write_rows(model))
+                    partial.write(content)
+
+            with open('detail-template.html', 'r') as template:
+                with open('partials/%s-detail.html' % model.lower(), 'w') as partial:
+                    content = template.read()
+                    content = content.replace('&c&', model)
+                    content = content.replace('&plural&', plural)
+                    content = content.replace('&id&', '{% raw %}{{%s.id}}{% endraw %}' % model.lower())
+                    content = content.replace('&inputs&', write_inputs(model))
+                    partial.write(content)
+
+        # keep flags in case there are multiple backend apps
         routes.append('// LOAD ROUTES')
-
-        requires.append("require('./ctrl/%s/list.js')" % model.lower() + "(%s);" % app_name)
-        requires.append("require('./ctrl/%s/detail.js')" % model.lower() + "(%s);" % app_name)
-        # keep flag in case there are multiple backend apps
         requires.append('// REQUIRE')
+        a = a.replace('// LOAD ROUTES', '\n'.join(routes))
+        a = a.replace('// REQUIRE', '\n'.join(requires))
 
-        # create directories for each model's set of controls
-        controller_path = 'js/ctrl/%s' % model.lower()
-        os.makedirs(controller_path)
+        app.seek(0)
+        app.truncate()
+        app.write(a)
 
-        # create list and detail controllers for each model
-        with open(controller_path + '/list.js', 'w') as list_ctrl:
-            list_ctrl.write(template_ctrl(model, "List"))
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='automatically populate an AngularJS frontend')
+    parser.add_argument("--models_path", help='path to models.py', default="{{cookiecutter.models_path}}")
+    args = parser.parse_args()
 
-        with open(controller_path + '/detail.js', 'w') as detail_ctrl:
-            detail_ctrl.write(template_ctrl(model, "Detail"))
-
-        # create list and detail templates for each model
-        with open('list-template.html', 'r') as template:
-            with open('partials/%s-list.html' % model.lower(), 'w') as partial:
-                content = template.read()
-                content = content.replace('&c&', model)
-                content = content.replace('&l&', model.lower())
-                content = content.replace('&plural&', plural)
-                content = content.replace('&headers&', write_headers(model))
-                content = content.replace('&rows&', write_rows(model))
-                partial.write(content)
-
-        with open('detail-template.html', 'r') as template:
-            with open('partials/%s-detail.html' % model.lower(), 'w') as partial:
-                content = template.read()
-                content = content.replace('&c&', model)
-                content = content.replace('&plural&', plural)
-                content = content.replace('&id&', '{% raw %}{{%s.id}}{% endraw %}' % model.lower())
-                content = content.replace('&inputs&', write_inputs(model))
-                partial.write(content)
-
-    a = a.replace('// LOAD ROUTES', '\n'.join(routes))
-    a = a.replace('// REQUIRE', '\n'.join(requires))
-
-    app.seek(0)
-    app.truncate()
-    app.write(a)
+    models = parse_models(args.models_path)
+    write_files(models, args.models_path)
