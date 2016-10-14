@@ -2,18 +2,55 @@
 <html lang="en" ng-app="{{cookiecutter.app_name}}">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     <title>{{cookiecutter.description}}</title>
 
     <link rel="stylesheet" type="text/css" href="build/main.css"/>
+
+    <style>
+        a { text-decoration: none; }
+        .ns-popover-tooltip-theme .ns-popover-tooltip {padding: 0;}
+    </style>
 </head>
 <body>
-    <md-toolbar ng-cloak>
-        <div class="md-toolbar-tools">
-            <span>{{cookiecutter.description}}</span>
+    <div ng-controller="NavCtrl" layout="column" style="height:500px" ng-cloak>
+        <md-toolbar ng-cloak>
+            <div class="md-toolbar-tools">
+                <h2>
+                    <span class="md-title"><a href="#/">{{cookiecutter.description}}</a></span>
+                </h2>
+                <span flex></span>
+                <script type="text/ng-template" id="popover">
+                    <div class="triangle"></div>
+                    <div class="ns-popover-tooltip">
+                        <md-list>
+                            <md-list-item ng-href="" ng-click="go('/logout');">
+                                <div layout="row" layout-align="center center">
+                                    <div class="md-list-item-text">
+                                        <p>Logout</p>
+                                    </div>
+                                </div>
+                            </md-list-item>
+                        </md-list>
+                    </div>
+                </script>
+                <md-button aria-label="User menu" ng-if="nav.userData.username" class="md-icon-button" style="padding:0;">
+                    <img ns-popover
+                      ns-popover-theme="ns-popover-tooltip-theme"
+                      ns-popover-template="popover"
+                      ns-popover-trigger="click"
+                      ns-popover-placement="bottom|right"
+                      ns-popover-hide-on-inside-click = "true"
+                      gravatar-src="nav.userData.email" style="width:100%; border-radius: 50%">
+                </md-button>
+                <md-button aria-label="Login" ng-if="!nav.userData.username" ng-hide="nav.show_login_button == false" ng-click="go('/login/')" class="md-secondary">
+                    Login
+                </md-button>
+            </div>
+        </md-toolbar>
+        <div class="view-container">
+            <div ng-view class="view-frame"></div>
         </div>
-    </md-toolbar>
-    <div class="view-container">
-        <div ng-view class="view-frame"></div>
     </div>
     <script type="text/javascript" src="build/app.js" charset="utf-8"></script>
 </body>

@@ -30,10 +30,9 @@ Run the script to populate template:
 $ python script.py
 ```
 
-Install requirements and run:
+To install requirements and run, type:
 ```console
-$ npm install
-$ make run
+$ make
 ```
 
 That's it! By default, your server will be running on port 10000 and pointing at

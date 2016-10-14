@@ -42,6 +42,14 @@ var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
             .accentPalette('pink');
         $routeProvider.
             // LOAD ROUTES
+            when('/login', {
+                templateUrl: 'partials/login.html',
+                controller: 'LoginCtrl'
+            }).
+            when('/logout', {
+                templateUrl: 'partials/login.html',
+                controller: 'LogOutCtrl'
+            }).
             when('/', {
                 templateUrl: 'partials/home.html',
                 controller: 'HomeCtrl'
@@ -105,4 +113,7 @@ require('./filter.js')({{cookiecutter.app_name}});
 require('./service.js')({{cookiecutter.app_name}});
 require('./const.js')({{cookiecutter.app_name}});
 require('./ctrl/home.js')({{cookiecutter.app_name}});
+require('./ctrl/nav.js')({{cookiecutter.app_name}});
+require('./ctrl/login.js')({{cookiecutter.app_name}});
+require('./ctrl/logout.js')({{cookiecutter.app_name}});
 // REQUIRE
