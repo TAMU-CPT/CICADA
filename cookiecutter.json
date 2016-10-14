@@ -3,5 +3,4 @@
     "description": "Test frontend",
     "author": "TAMU-CPT",
     "app_name": "testApp",
-    "models_path": "~/Work/drf_project/base/models.py"
 }
