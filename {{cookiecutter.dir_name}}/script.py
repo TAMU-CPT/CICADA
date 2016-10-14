@@ -93,8 +93,13 @@ with open('js/app.js', 'r+') as app:
                    " "*16 + "controller: '%sDetailCtrl'" % model,
                    " "*12 + "})."]))
 
+        # keep flag in case there are multiple backend apps
+        routes.append('// LOAD ROUTES')
+
         requires.append("require('./ctrl/%s/list.js')" % model.lower() + "(%s);" % app_name)
         requires.append("require('./ctrl/%s/detail.js')" % model.lower() + "(%s);" % app_name)
+        # keep flag in case there are multiple backend apps
+        requires.append('// REQUIRE')
 
         # create directories for each model's set of controls
         controller_path = 'js/ctrl/%s' % model.lower()
