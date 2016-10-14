@@ -8,7 +8,7 @@ def write_input_block(model,field):
     """ templates input blocks for card in detail view """
     return ('\n' + " "*16).join([" "*16 + '<md-input-container flex>',
                                  " "*4 + '<label>%s</label>' % field,
-                                 " "*4 + '<input ng-model="%s.%s">' % (model.lower(), field),
+                                 " "*4 + '<input disabled ng-model="%s.%s">' % (model.lower(), field),
                                  '</md-input-container>'])
 
 def write_inputs(model):
@@ -137,6 +137,24 @@ def write_files(models, path):
         app.seek(0)
         app.truncate()
         app.write(a)
+
+    # modify home.js to include links to all model list views
+    with open('js/ctrl/home.js', 'r+') as home:
+        h = home.read()
+        homeitems = []
+        for model in models:
+            plural = 's'
+            if model.endswith('s'):
+                plural = 'es'
+            homeitems.append('\n' + " "*16).join([" "*16 + '{',
+                                        " "*4 + 'title: "%s%s",' % (model, plural),
+                                        " "*4 + 'url: "#/%s%s",' % (model.lower(), plural),
+                                        '},'])
+
+        h = h.replace('// LOAD HOMEITEMS', '\n'.join(homeitems))
+        home.seek(0)
+        home.truncate()
+        home.write(h)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='automatically populate an AngularJS frontend')
