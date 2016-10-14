@@ -12,7 +12,7 @@
                 //uncomment if ordering filter is implemented in backend
                 //$scope.query.ordering = $scope.ordering;
                 $scope.promise = Restangular.all('&app&/&l&&plural&').getList($scope.query).then(function(data) {
-                    $scope.&l&s = data;
+                    $scope.data = data;
                 });
             };
 
