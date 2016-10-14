@@ -146,10 +146,10 @@ def write_files(models, path):
             plural = 's'
             if model.endswith('s'):
                 plural = 'es'
-            homeitems.append('\n' + " "*16).join([" "*16 + '{',
+            homeitems.append(('\n' + " "*16).join([" "*16 + '{',
                                         " "*4 + 'title: "%s%s",' % (model, plural),
                                         " "*4 + 'url: "#/%s%s",' % (model.lower(), plural),
-                                        '},'])
+                                        '},']))
 
         h = h.replace('// LOAD HOMEITEMS', '\n'.join(homeitems))
         home.seek(0)
