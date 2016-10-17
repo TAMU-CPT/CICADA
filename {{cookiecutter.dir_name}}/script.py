@@ -159,7 +159,7 @@ def write_files(models, path):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='automatically populate an AngularJS frontend')
-    parser.add_argument("--models_path", help='path to models.py')
+    parser.add_argument("models_path", help='path to models.py')
     args = parser.parse_args()
 
     models = parse_models(args.models_path)
