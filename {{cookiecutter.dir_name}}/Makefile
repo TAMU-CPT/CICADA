@@ -1,5 +1,15 @@
 .PHONY: build
 
+
+NPM:=$(shell which npm)
+YARN:=$(shell which yarn)
+
+installer = $(NPM)
+
+ifdef YARN
+	installer = $(YARN)
+endif
+
 all: run
 
 run: node_modules  ## Run the server
@@ -12,7 +22,7 @@ build: node_modules  ## Compile a project for deployment
 	./node_modules/.bin/webpack  --progress --colors --devtool source-map
 
 node_modules: package.json
-	npm install
+	$(installer) install
 
 .PHONY: help
 
