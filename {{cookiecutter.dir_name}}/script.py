@@ -151,6 +151,7 @@ def write_files(models, path):
                                         " "*4 + 'url: "#/%s%s",' % (model.lower(), plural),
                                         '},']))
 
+        homeitems.append('// LOAD HOMEITEMS')
         h = h.replace('// LOAD HOMEITEMS', '\n'.join(homeitems))
         home.seek(0)
         home.truncate()
