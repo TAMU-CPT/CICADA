@@ -9,8 +9,7 @@ $ python script.py models_path path/to/models.py
 
 Install requirements and run:
 ```console
-$ npm install
-$ make run
+$ make
 ```
 
 That's it! By default, your server will be running on port 10000 and pointing at
