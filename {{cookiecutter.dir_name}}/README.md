@@ -4,7 +4,7 @@ An AngularJS frontend.
 ## Startup
 Run the script to populate template:
 ```console
-$ python script.py
+$ python script.py models_path path/to/models.py
 ```
 
 Install requirements and run:
