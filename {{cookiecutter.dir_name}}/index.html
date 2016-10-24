@@ -6,11 +6,6 @@
     <title>{{cookiecutter.description}}</title>
 
     <link rel="stylesheet" type="text/css" href="build/main.css"/>
-
-    <style>
-        a { text-decoration: none; }
-        .ns-popover-tooltip-theme .ns-popover-tooltip {padding: 0;}
-    </style>
 </head>
 <body>
     <div ng-controller="NavCtrl" layout="column" style="height:500px" ng-cloak>
@@ -20,30 +15,19 @@
                     <span class="md-title"><a href="#/">{{cookiecutter.description}}</a></span>
                 </h2>
                 <span flex></span>
-                <script type="text/ng-template" id="popover">
-                    <div class="triangle"></div>
-                    <div class="ns-popover-tooltip">
-                        <md-list>
-                            <md-list-item ng-href="" ng-click="go('/logout');">
-                                <div layout="row" layout-align="center center">
-                                    <div class="md-list-item-text">
-                                        <p>Logout</p>
-                                    </div>
-                                </div>
-                            </md-list-item>
-                        </md-list>
-                    </div>
-                </script>
-                <md-button aria-label="User menu" ng-if="nav.userData.username" class="md-icon-button" style="padding:0;">
-                    <img ns-popover
-                      ns-popover-theme="ns-popover-tooltip-theme"
-                      ns-popover-template="popover"
-                      ns-popover-trigger="click"
-                      ns-popover-placement="bottom|right"
-                      ns-popover-hide-on-inside-click = "true"
-                      gravatar-src="nav.userData.email" style="width:100%; border-radius: 50%">
-                </md-button>
-                <md-button aria-label="Login" ng-if="!nav.userData.username" ng-hide="nav.show_login_button == false" ng-click="go('/login/')" class="md-secondary">
+                <md-menu md-position-mode="target-right target" md-offset="0 55" ng-if="nav.userData.username">
+                    <md-button aria-label="Open user menu" class="md-icon-button" ng-click="$mdOpenMenu($event)" style="padding:0" layout="row" layout-align="center center">
+                        <img md-menu-origin gravatar-src="nav.userData.email" style="width:100%; border-radius: 50%">
+                    </md-button>
+                    <md-menu-content width="2">
+                        <md-menu-item>
+                            <md-button ng-click="go('/logout')">
+                                <span md-menu-align-target>Logout</span>
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+                <md-button aria-label="Login" ng-if="!nav.userData.username" ng-hide="nav.show_login_button == false" ng-click="go('/login')" class="md-secondary">
                     Login
                 </md-button>
             </div>

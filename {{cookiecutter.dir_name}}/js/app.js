@@ -13,7 +13,6 @@ require('angular-animate');
 require('jquery');
 require('ngstorage');
 require('angular-jwt');
-require('ns-popover');
 var moment = require('moment');
 
 var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
@@ -25,7 +24,6 @@ var {{cookiecutter.app_name}} = angular.module('{{cookiecutter.app_name}}', [
     'ngMessages',
     'ngAnimate',
     'md.data.table',
-    'nsPopover',
     'ngStorage' // https://github.com/gsklee/ngStorage
 ]);
 
