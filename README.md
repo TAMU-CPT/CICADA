@@ -4,6 +4,8 @@ AngularJS frontend that connects to your Django REST backend. This template make
 backend, namely that it is a Django DRF-based backend with JWT authentication. Such a template for a backend can
 be easily created with the [cc-automated-drf-template](https://github.com/TAMU-CPT/cc-automated-drf-template).
 
+*Full tutorial with cc-automated-drf-template and CICADA coming soon!*
+
 ## Features
 - Webpack configured
 - backend communication with [Restangular](https://github.com/mgonto/restangular)
@@ -19,19 +21,16 @@ Install Cookiecutter:
 $ pip install cookiecutter
 ```
 Give names for your directory, project, and app when prompted by Cookiecutter.
-The models_path field should be the relative or absolute path to your
-models.py file from your Django DRF backend.
 ```console
 $ cookiecutter https://github.com/TAMU-CPT/CICADA.git
 dir_name [frontend-test]:
 description [Test frontend]:
 author [TAMU-CPT]:
 app_name [testApp]:
-models_path [~/Work/drf_project/base/models.py]:
 ```
 Run the script to populate template using the path to your backend app's `models.py`:
 ```console
-$ python script.py --models_path path/to/models.py
+$ python script.py models_path path/to/models.py
 ```
 
 To install requirements and run, type:
