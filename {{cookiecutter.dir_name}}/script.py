@@ -109,7 +109,7 @@ def write_files(models, path):
                 detail_ctrl.write(template_ctrl(model, "Detail", app_name, path, plural))
 
             # create list and detail templates for each model
-            with open('list-template.html', 'r') as template:
+            with open('templates/list-template.html', 'r') as template:
                 with open('partials/%s-list.html' % model.lower(), 'w') as partial:
                     content = template.read()
                     content = content.replace('&c&', model)
@@ -119,7 +119,7 @@ def write_files(models, path):
                     content = content.replace('&rows&', write_rows(model))
                     partial.write(content)
 
-            with open('detail-template.html', 'r') as template:
+            with open('templates/detail-template.html', 'r') as template:
                 with open('partials/%s-detail.html' % model.lower(), 'w') as partial:
                     content = template.read()
                     content = content.replace('&c&', model)
