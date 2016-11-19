@@ -43,7 +43,7 @@ def template_ctrl(model, c_type, app_name, path, plural):
                                " "*4 + "%s" % app_name + ".controller('%s', ['$scope','$location','$routeParams', 'Restangular'," % controller_name,
                                " "*8 + "function($scope, $location, $routeParams, Restangular) {"]))
 
-    with open('%s-template.js' % c_type.lower(), 'r') as template:
+    with open('templates/%s-template.js' % c_type.lower(), 'r') as template:
         content = template.read()
         content = content.replace('&app&', os.path.basename(os.path.dirname(os.path.expanduser(path))))
         content = content.replace('&l&', model.lower())
