@@ -19,8 +19,12 @@ export default function(base) {
 							$mdLoginToast.show("Success");
 							$location.path("/");
 						})
-						.error(function() {
-							$mdLoginToast.show("Invalid Login");
+						.error(function(err, error_code) {
+							if (error_code == 401 || error_code == 403 || error_code == 400 || error_code == 500) {
+								$mdLoginToast.show('Invalid Login');
+							} else if (error_code == -1){
+								$mdLoginToast.show('Backend Server Unavailable');
+							}
 						});
 				}
 				if ($scope.loginForm.$invalid) {
