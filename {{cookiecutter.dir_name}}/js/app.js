@@ -118,13 +118,13 @@ let {{cookiecutter.app_name}} = angular.module("{{cookiecutter.app_name}}", [
 		}]);
 	}]);
 
-require("./directives.js")(base);
-require("./factory.js")(base);
-require("./filter.js")(base);
-require("./service.js")(base);
-require("./const.js")(base);
-require("./ctrl/home.js")(base);
-require("./ctrl/nav.js")(base);
-require("./ctrl/login.js")(base);
-require("./ctrl/logout.js")(base);
+require("./directives.js")({{cookiecutter.app_name}});
+require("./factory.js")({{cookiecutter.app_name}});
+require("./filter.js")({{cookiecutter.app_name}});
+require("./service.js")({{cookiecutter.app_name}});
+require("./const.js")({{cookiecutter.app_name}});
+require("./ctrl/home.js")({{cookiecutter.app_name}});
+require("./ctrl/nav.js")({{cookiecutter.app_name}});
+require("./ctrl/login.js")({{cookiecutter.app_name}});
+require("./ctrl/logout.js")({{cookiecutter.app_name}});
 // REQUIRE
