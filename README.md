@@ -30,7 +30,7 @@ app_name [testApp]:
 ```
 Run the script to populate template using the path to your backend app's `models.py`:
 ```console
-$ python script.py models_path path/to/models.py
+$ python script.py path/to/models.py
 ```
 
 To install requirements and run, type:
